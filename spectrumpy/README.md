@@ -1,22 +1,15 @@
 ![Pitney Bowes](/PitneyBowes_Logo.jpg)
-# spectrumpy
 
 Spectrum Web Service python integration
 ======================================================
 
-|PyPI|
-
-.. |PyPI|
-   image:: https://img.shields.io/pypi/v/spectrumpy.svg
-   :target: https://pypi.python.org/pypi/spectrumpy
-
 As usual, install using pip:
 
-.. code-block:: sh
+```scripting
 
    $ pip install git+https://github.com/PitneyBowes/spectrumpy#egg=spectrumpy  # from Github
 
-
+```
 
 Copyright 2019 Pitney Bowes Inc.
 
