@@ -1,6 +1,16 @@
 ![Pitney Bowes](/PitneyBowes_Logo.jpg)
 # spectrumspatialpy
 
+Spectrum Spatial Web Service python integration
+======================================================
+
+As usual, install using pip:
+
+```scripting
+
+   $ pip install git+https://github.com/PitneyBowes/spectrumpy#egg=spectrumspatialpy  # from Github
+
+```
 
 Copyright 2019 Pitney Bowes Inc.
 
