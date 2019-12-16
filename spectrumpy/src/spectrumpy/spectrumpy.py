@@ -392,12 +392,13 @@ class Servers:
 		for key in config['SERVERS']: servers.append(config['SERVERS'][key])
 		return servers
 		
-	def getServer(name):
+	def getServer(name, debug = False):
 		"""A the Server object for the specified name. """
 		config = configparser.ConfigParser()
 		Servers._read_config_(config)
 		if config.has_section(name):
-			server=Server(config[name]['url'], (config[name]['user'],config[name]['pwd']))
+            doDebug = debug
+			server=Server(config[name]['url'], (config[name]['user'],config[name]['pwd']), debug=doDebug)
 			return server
 		return None
 				
@@ -407,13 +408,16 @@ class Server:
 		self.credentials=('admin','admin')
 		self.Services = {}
 		self.spectrumServices = None
+        self.debug = False
 		
-	def __init__(self, url, credentials):
+	def __init__(self, url, credentials, debug = False):
 		''' Constructor for this class. '''
 		self.url=url
 		self.credentials=credentials
 		self.Services = {}
 		self.spectrumServices = None
+        doDebug = debug
+        self.debug=doDebug
 		#self.__AddRestServices()
 		
 	def __GetRestServices(self):
@@ -425,29 +429,42 @@ class Server:
 		result = opener.open(request)
 		encoding = result.headers.get_content_charset('utf-8')
 		result = result.read().decode(encoding)
+        if (debug == True):
+            print ('Spectrum Rest services: {0}'.format(result))
+
 		# HACK!!! The html returned from Spectrum is non-standard and the python DOM parser doesn't like it
 		result = result.replace('<HEAD>','<head>')
 		result = result.replace('<HTML>','<html>')
 		result = result.replace('><meta','/><meta')
 		result = result.replace('><title','/><title')
+        if (debug == True):
+            print ('Spectrum Rest services: {0}'.format(result))
+
 		return result
 	
 	def __ProcessRestServices(self, node, parent, currentUrl):
 		if (node == None):
+            if (debug == True):
+                print('Node is empty, returning')
 			return
 			
 		if ((node.nodeType == node.TEXT_NODE) and (parent.nodeName == 'a') and (node.nodeValue.endswith('?_wadl'))):
 			service_name = node.nodeValue.replace(self.url + 'rest/','').replace('?_wadl','')
+            if (debug == True):
+                print ('Service {0} : {1}'.format(service_name, node.nodeValue))
 			self.Services[service_name] = node.nodeValue
-			
+        
 		for childNode in node.childNodes:
 			self.__ProcessRestServices(childNode, node, currentUrl)
 	
 	def SpectrumServices(self):
 		if self.spectrumServices == None:
 			innerSelf = self
-			
-			self.__ProcessRestServices(parseString(self.__GetRestServices()),None,None)
+			dom = parseString(self.__GetRestServices())
+            if (debug == True):
+                print (dom.toprettyxml())
+
+			self.__ProcessRestServices(dom,None,None)
 			
 			#
 			# Define decorator fuction which is used to force the services into functions
