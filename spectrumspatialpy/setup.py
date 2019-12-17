@@ -3,7 +3,6 @@ from setuptools import find_packages, setup
 setup(name='spectrumspatialpy',
       version='0.1',
       description='Client integration of Pitney Bowes Spectrum Spatial for Python',
-      long_description=open("README.rst", encoding="utf-8").read(),
       url='https://github.com/PitneyBowes/spectrumpy',
       author='Cary Peebles',
       author_email='cary.peebles@pb.com',
