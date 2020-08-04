@@ -8,7 +8,7 @@ As usual, install using pip:
 
 ```scripting
 
-   $ pip install git+https://github.com/PitneyBowes/spectrumpy#egg=spectrumspatialpy  # from Github
+   $ pip install git+https://github.com/PreciselyData/spectrumpy#egg=spectrumspatialpy  # from Github
 
 ```
 
